@@ -1,4 +1,5 @@
 #include "computer.h"
+#include "instr.h"
 
 int main(int argc, const char* argv[]){
     // handle no arguments
@@ -13,6 +14,29 @@ int main(int argc, const char* argv[]){
     fclose(fp);
     // disable input buffering
     disable_input_buffering();
+    // run the program
+    bool running = true;
+    //  cycle accumulator
+    uint16_t cycles = 0;
+    //  set PC to 0x0000
+    reg[16] = 0x0000;
+    //  temporary counter for debugging
+    int counter = 0;
+    while (running){
+        if (counter > 99){
+            running = false;
+            break;
+        }
+        // instruction fetch
+        uint16_t instr = mem[reg[16]++];
+        // decode the instruction 
+        // and let the decoder process it
+        decode1(instr);
+        cycles++;
+        if (cycles == 65535){
+            cycles = 0;
+        }
+    }
     // restore input buffering
     restore_input_buffering();
     // run the program
