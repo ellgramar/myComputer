@@ -2,22 +2,34 @@
 
 Addressable Registers
 14 general purpose registers x0-xd
-or  output register (holds two chars)
-ir  input register (holds two chars)
-
-Non Addressable Registers:
-pc  program counter register
-sp  stack pointer register
-fp  frame pointer register 
-lr  link register for return address of function
-sr  status register
-    nzct jxxx xxxx xxxx
-        n   indicates that the resulting value is negetive
-        z   indicates that the result of the operation resulted in zero
-        c   indicates that there was a carry or overflow
-        t   indicates that in signed integers, there was an overflow
-        j   jump mode
-
+        
+1  r0                                       | Always reset to 0 at the end of every cycle
+2  r1    --                                 |
+3  r2     |                                 |
+4  r3     |                                 |
+5  r4     |                                 |
+6  r5     |                                 |
+7  r6     |                                 |
+8  r7     |-- User addressable registers    |
+9  r8     |                                 |
+10 r9     |                                 |
+11 ra     | --                              |
+12 rb     |  |                              | 
+13 rc     |  |                              |
+14 rd     |  |                              |
+15 or e   |  |                              | Output Register (holds two chars) outputs to vt buffer queue if output flag is enabled
+16 ir f --   |-- Special Purpose Registers  | Input Register (holds two chars) vt buffer qeue poped to this register 
+17 pc        |                              | program counter register
+18 sp        |                              | stack pointer register
+19 fp        |                              | frame pointer register
+20 lr        |                              | link register for return address of function
+21 sr       --                              | status register
+                                                nzct jxxx xxxx xxxx
+                                                    n   indicates that the resulting value is negetive
+                                                    z   indicates that the result of the operation resulted in zero
+                                                    c   indicates that there was a carry or overflow
+                                                    t   indicates that in signed integers, there was an overflow
+                                                    j   jump mode
 
 
 Three register commands
@@ -36,17 +48,17 @@ xa  xnr     !(src1 xor src2)
 xb  lod     load from address to r (address is lower byte)
 xc  str     store from r to address (address is lower byte)
 xd  cpi     compare reg with immediate (reg is second nibble, immediate is second byte)
-xe      
+xe  set     set lower byte in register to value stored in lower byte of instruction
 xf  escape to two register commands
 
 Two Register Operations
 x00 escape to one register opcodes 0
 x01 cmp     compares the two registers and sets flag accordingly activates jump/branch mode
-x02 set     (lower byte)
-x03 mov     mover src2 to src1
-x04 swr     swaps src1 and src2
-x05 ldi     load data from address specified in r2 to r1
-x06 sti     store data from r1 to address in r2
+x02 mov     move src2 to src1
+x03 swr     swaps src1 and src2
+x04 ldi     load data from address specified in r2 to r1
+x05 sti     store data from r1 to address in r2
+x06 
 x07 
 x08 
 x09 

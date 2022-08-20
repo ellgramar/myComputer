@@ -19,7 +19,9 @@ int main(int argc, const char* argv[]){
     //  cycle accumulator
     uint16_t cycles = 0;
     //  set PC to 0x0000
-    reg[16] = 0x0000;
+
+    for (int i = 0; i < )
+
     //  temporary counter for debugging
     int counter = 0;
     while (running){
@@ -32,6 +34,7 @@ int main(int argc, const char* argv[]){
         // decode the instruction 
         // and let the decoder process it
         decode1(instr);
+
         cycles++;
         if (cycles == 65535){
             cycles = 0;

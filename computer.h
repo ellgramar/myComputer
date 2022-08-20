@@ -13,5 +13,7 @@
 uint16_t reg[21];
 //  memory
 uint16_t mem[0xffff];
+//  error handling
+extern char Error[64];
 
 #endif

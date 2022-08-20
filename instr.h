@@ -8,6 +8,7 @@ void decode1(uint16_t instr);
 void decode2(uint16_t instr);
 void decode3(uint16_t instr);
 void decode4(uint16_t instr);
+void decode5(uint16_t instr);
 void cmp(uint16_t instr);
 
 
