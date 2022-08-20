@@ -33,7 +33,6 @@ Addressable Registers
                                         o   output flag (raise to output two chars, it is then cleared)
                                         i   input flag (raise to get next two chars in replacing previous ones)
 
-
 Three register commands
 opcd    dest    src1    src2
 x0  add     src1 + src2
@@ -71,7 +70,6 @@ x0d
 x0e 
 x0f
 
-
 Jump/Branch mode is activated on cmp instruction (also sets jump flag) after the jump or branch, this mode is deactivated.
     -   However, it is not deactivated until it is taken or the next instruction is not a jump/branch
         e.g.    cmp r1, r2          <- flags are set, jump mode activated
@@ -91,10 +89,7 @@ xd  bgt     branch if greater than
 xe  ble     branch if less than or equal
 xf  blt     branch if less than
 
-
     -   Need next incrementer for pc, or make pc user addressable (in which case do we need absolute or reletive jumps?)
-
-
 
 x000    escape to no register opcodes 0
 x001    not     invert bits in register
@@ -105,7 +100,7 @@ x005    psh     check heap[max] < stack-pointer (sp), store register in mem[sp],
 x006    pop     check sp != 65535, pop value from stack to register, increment stack pointer
 x007    sle     left shift (mul 2)
 x008    ssl     (signed shift left)
-x009    sri     right shift (fill with zeros, int div 2)
+x009    sri     shift right (fill with zeros, int div 2)
 x00a    ssr     signed shift right
 x00b    rol     rotate left
 x00c    srl     signed rotate left

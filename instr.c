@@ -208,7 +208,63 @@ void decode3(uint16_t instr){
             break;
 
         case 0x5:       //  push the register to stack, decrement stack pointer
+            mem[reg[18]] = reg[(instr & 0x000f)];
+            reg[18] = reg[18] - 1;
         
+        case 0x6:       //  pop from the stack to register
+            reg[18] = reg[18] + 1;
+            reg[(instr & 0x000f)] = mem[reg[18]];
+            break;
+
+        case 0x7:       //  unsigned shift left
+            reg[(instr & 0x000f)] = reg[(instr & 0x000f)] << 1;
+            if (reg[(instr & 0x000f)] == 0x0){
+                reg[21] = reg[21] | 0x4000;
+            }
+            break;
+        
+        case 0x8:       //  signed shift left
+            uint16_t temp = reg[(instr & 0x000f)] & 0x8000;
+            reg[(instr & 0x000f)] = reg[(instr & 0x000f)] << 1;
+            if (reg[(instr & 0x000f)] == 0x0){
+                reg[21] = reg[21] | 0x4000;
+            }
+            reg[(instr & 0x000f)] = reg[(instr & 0x000f)] | temp;
+            break;
+
+        case 0x9:       //  shift right
+            reg[(instr & 0x000f)] = reg[(instr & 0x000f)] >> 1;
+            if (reg[(instr & 0x000f)] == 0x0){
+                reg[21] = reg[21] | 0x4000;
+            }
+            break;
+        
+        case 0xa:   //  signed shift right
+            uint16_t temp = reg[(instr & 0x000f)] & 0x8000;
+            reg[(instr & 0x000f)] = reg[(instr & 0x000f)] >> 1;
+            reg[(instr & 0x000f)] = reg[(instr & 0x000f)] | temp;
+            break;
+
+        case 0xb:       //  rotate left
+            uint16_t temp = (reg[(instr & 0x000f)] & 0x8000) >> 15;
+            reg[(instr & 0x000f)] = reg[(instr & 0x000f)] << 1;
+            reg[(instr & 0x000f)] = reg[(instr & 0x000f)] | temp;
+            if (reg[(instr & 0x000f)] == 0x0){
+                reg[21] = reg[21] | 0x8000;
+            }
+            break;
+
+        case 0xc:       //  signed rotate left
+            uint16_t sign = reg[(instr & 0x000f)] & 0x8000;
+            uint16_t temp = (reg[(instr & 0x000f)] & 0x4000) >> 14;
+            reg[(instr & 0x000f)] = (((reg[(instr & 0x000f)] & 0x3fff) << 1) | temp) | sign;
+            if (reg[(instr & 0x000f)] == 0x0){
+                reg[21] = reg[21] | 0x8000;
+            }
+            if (reg[(instr & 0x000f)] > 0x3fff){
+                
+            }
+
     }
     return;
 }

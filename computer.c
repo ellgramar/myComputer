@@ -19,11 +19,10 @@ int main(int argc, const char* argv[]){
     //  cycle accumulator
     uint16_t cycles = 0;
     //  set PC to 0x0000
-
     for (int i = 0; i < 21; i++){
-        mem[i] = 0x0000;
+        reg[i] = 0x0000;
     }
-
+    reg[18] = 0xffff;
     //  temporary counter for debugging
     int counter = 0;
     while (running){
