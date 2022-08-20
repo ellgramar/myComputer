@@ -208,10 +208,7 @@ void decode3(uint16_t instr){
             break;
 
         case 0x5:       //  push the register to stack, decrement stack pointer
-            
-
-
-            
+        
     }
     return;
 }

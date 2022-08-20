@@ -3,33 +3,35 @@
 Addressable Registers
 14 general purpose registers x0-xd
         
-1  r0                                       | Always reset to 0 at the end of every cycle
-2  r1    --                                 |
-3  r2     |                                 |
-4  r3     |                                 |
-5  r4     |                                 |
-6  r5     |                                 |
-7  r6     |                                 |
-8  r7     |-- User addressable registers    |
-9  r8     |                                 |
-10 r9     |                                 |
-11 ra     | --                              |
-12 rb     |  |                              | 
-13 rc     |  |                              |
-14 rd     |  |                              |
-15 or e   |  |                              | Output Register (holds two chars) outputs to vt buffer queue if output flag is enabled
-16 ir f --   |-- Special Purpose Registers  | Input Register (holds two chars) vt buffer qeue poped to this register 
-17 pc        |                              | program counter register
-18 sp        |                              | stack pointer register
-19 fp        |                              | frame pointer register
-20 lr        |                              | link register for return address of function
-21 sr       --                              | status register
-                                                nzct jxxx xxxx xxxx
-                                                    n   indicates that the resulting value is negetive
-                                                    z   indicates that the result of the operation resulted in zero
-                                                    c   indicates that there was a carry or overflow
-                                                    t   indicates that in signed integers, there was an overflow
-                                                    j   jump mode
+1  r0                          | Always reset to 0 at the end of every cycle
+2  r1   --                     |--
+3  r2     |                    |  |
+4  r3     |                    |  |
+5  r4     |                    |  |
+6  r5     |                    |  |-- Standard General purpose
+7  r6     |                    |  |
+8  r7     |   User addressable |  |
+9  r8     |-- addressable      |  |
+10 r9     |   Registers        |__
+11 ra     | --                 |--
+12 rb     |  |                 |  |-- ra with rb and rc with rd are used for 
+13 rc     |  |                 |  |     32 bit addressable modes for bus interfaces
+14 rd     |  |                 |__
+15 or e   |  |   Special       | Output Register (holds two chars) outputs to vt buffer queue if output flag is enabled
+16 ir f --   |-- Purpose       | Input Register (holds two chars) vt buffer qeue poped to this register 
+17 pc        |   Registers     | program counter register
+18 sp        |                 | stack pointer register
+19 fp        |                 | frame pointer register
+20 lr        |                 | link register for return address of function
+21 sr       --                 | status register
+                                    nzct joix xxxx xxxx            
+                                        n   indicates that the resulting value is negetive
+                                        z   indicates that the result of the operation resulted in zero
+                                        c   indicates that there was a carry or overflow
+                                        t   indicates that in signed integers, there was an overflow
+                                        j   jump mode
+                                        o   output flag (raise to output two chars, it is then cleared)
+                                        i   input flag (raise to get next two chars in replacing previous ones)
 
 
 Three register commands
@@ -67,7 +69,7 @@ x0b
 x0c 
 x0d 
 x0e 
-x0f escape to one register opcodes 1
+x0f
 
 
 Jump/Branch mode is activated on cmp instruction (also sets jump flag) after the jump or branch, this mode is deactivated.

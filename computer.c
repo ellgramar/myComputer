@@ -20,7 +20,9 @@ int main(int argc, const char* argv[]){
     uint16_t cycles = 0;
     //  set PC to 0x0000
 
-    for (int i = 0; i < )
+    for (int i = 0; i < 21; i++){
+        mem[i] = 0x0000;
+    }
 
     //  temporary counter for debugging
     int counter = 0;
