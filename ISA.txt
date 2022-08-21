@@ -3,35 +3,36 @@
 Addressable Registers
 14 general purpose registers x0-xd
         
-1  r0                          | Always reset to 0 at the end of every cycle
-2  r1   --                     |--
-3  r2     |                    |  |
-4  r3     |                    |  |
-5  r4     |                    |  |
-6  r5     |                    |  |-- Standard General purpose
-7  r6     |                    |  |
-8  r7     |   User addressable |  |
-9  r8     |-- addressable      |  |
-10 r9     |   Registers        |__
-11 ra     | --                 |--
-12 rb     |  |                 |  |-- ra with rb and rc with rd are used for 
-13 rc     |  |                 |  |     32 bit addressable modes for bus interfaces
-14 rd     |  |                 |__
-15 or e   |  |   Special       | Output Register (holds two chars) outputs to vt buffer queue if output flag is enabled
-16 ir f --   |-- Purpose       | Input Register (holds two chars) vt buffer qeue poped to this register 
-17 pc        |   Registers     | program counter register
-18 sp        |                 | stack pointer register
-19 fp        |                 | frame pointer register
-20 lr        |                 | link register for return address of function
-21 sr       --                 | status register
-                                    nzct joix xxxx xxxx            
+0  r0                          | Always reset to 0 at the end of every cycle
+1  r1   --                     |--
+2  r2     |                    |  |
+3  r3     |                    |  |
+4  r4     |                    |  |
+5  r5     |                    |  |-- Standard General purpose
+6  r6     |                    |  |
+7  r7     |   User addressable |  |
+8  r8     |-- addressable      |  |
+9 r9     |   Registers        |__
+10 ra     | --                 |--
+11 rb     |  |                 |  |-- ra with rb and rc with rd are used for 
+12 rc     |  |                 |  |     32 bit addressable modes for bus interfaces
+13 rd     |  |                 |__
+14 or e   |  |   Special       | Output Register (holds two chars) outputs to vt buffer queue if output flag is enabled
+15 ir f --   |-- Purpose       | Input Register (holds two chars) vt buffer qeue poped to this register 
+16 pc        |   Registers     | program counter register
+17 sp        |                 | stack pointer register
+18 fp        |                 | frame pointer register
+19 lr        |                 | link register for return address of function
+20 sr       --                 | status register
+                                    nzct oijx xxxx bbbb           
                                         n   indicates that the resulting value is negetive
                                         z   indicates that the result of the operation resulted in zero
                                         c   indicates that there was a carry or overflow
                                         t   indicates that in signed integers, there was an overflow
-                                        j   jump mode
                                         o   output flag (raise to output two chars, it is then cleared)
                                         i   input flag (raise to get next two chars in replacing previous ones)
+                                        j   jump bit to toggle jump mode
+                                        b   MSBs for jump instructions (absolute jump just takes the LSB)
 
 Three register commands
 opcd    dest    src1    src2
@@ -48,17 +49,18 @@ x9  xor     src1 xor src2
 xa  xnr     !(src1 xor src2)
 xb  lod     load from address to r (address is lower byte)
 xc  str     store from r to address (address is lower byte)
-xd  cpi     compare reg with immediate (reg is second nibble, immediate is second byte)
-xe  set     set lower byte in register to value stored in lower byte of instruction
+xd  set     set lower byte in register to value stored in lower byte of instruction
+xe  
 xf  escape to two register commands
 
 Two Register Operations
 x00 escape to one register opcodes 0
 x01 cmp     compares the two registers and sets flag accordingly activates jump/branch mode
-x02 mov     move src2 to src1
-x03 swr     swaps src1 and src2
-x04 ldi     load data from address specified in r2 to r1
-x05 sti     store data from r1 to address in r2
+x02 jod     jump to odd address (sets jump flag before calling cmp function)
+x03 mov     move src2 to src1
+x04 swr     swaps src1 and src2
+x05 ldi     load data from address specified in r2 to r1
+x06 sti     store data from r1 to address in r2
 x06 
 x07 
 x08 
@@ -70,24 +72,30 @@ x0d
 x0e 
 x0f
 
-Jump/Branch mode is activated on cmp instruction (also sets jump flag) after the jump or branch, this mode is deactivated.
+Jump/Branch mode is activated on cmp instruction (also sets jump flag). After the jump or branch, this mode is deactivated.
     -   However, it is not deactivated until it is taken or the next instruction is not a jump/branch
         e.g.    cmp r1, r2          <- flags are set, jump mode activated
                 beq addr + offset   <- jump mode automatically deactivated only if taken
                 bgt addr + offset   <- jump mode automatically deactivated only if taken
                 set r1, 0x10        <- jump mode automatically deactivated
 
-x0-x7 jmp   absolute jump 15 bits plus neg bit in answer after cmp/cpi for MSB
-                i.e. for even address, cmp 0,0 -> jmp; and for odd: cpi r0, 0x1 -> jmp
-
-x8  jrp     jump relative plus positive offset
-x9  jrn     jump relative minus offset
-xa  beq     branch if equal
-xb  bne     branch if not equal
-xc  bge     branch if greater than or equal
-xd  bgt     branch if greater than
-xe  ble     branch if less than or equal
-xf  blt     branch if less than
+x0  jmp     absolute jump: MSBs = 4 LSBs in sr, 12 LSBs in opcode
+                i.e. 0xefef: sr = nzct oijx xxxx 1110; opcode = 0000 1111 1110 1111
+x1  jrp     jump relative plus positive offset
+x2  jrn     jump relative minus offset
+x3  beq     branch if equal
+x4  bne     branch if not equal
+x5  bge     branch if greater than or equal
+x6  bgt     branch if greater than
+x7  ble     branch if less than or equal
+x8  blt     branch if less than
+x9  stb     set jump bits based on lowest nibble
+xa  ajb     add to jump bits from lowest nibble (be careful of overflow as it is not detected)
+xb  sjb     subtract from jump bits same as add
+xc  cjb     clear jump bits in status register 
+xd  
+xe  
+xf  
 
     -   Need next incrementer for pc, or make pc user addressable (in which case do we need absolute or reletive jumps?)
 
@@ -114,34 +122,37 @@ x0001   ret     return
 x0002   nop     pc inc
 x0003   psha    push all registers to stack and set sp and lr accordingly
 x0004   popa    pop all registers from stack and set sp and lr
-x0005   claf    clear all flags
-x0006   cln     clear negetive flag
-x0007   clz     clear zero flag
-x0008   clc     clear carry flag
-x0009   clt     clear signed overflow flag
-x000a   clj     clear jump mode flag (force exit jmp mode)
-x000b   
-x000c   chr     push current value of r14 (or) to output buffer and pull input buffer from inputbuffer to r15 (ir)
-x000d   
+x0005   out     push output register char values to vt write buffer
+x0006   in      pull two chars from vt read buffer to input register 
+x0007   io      push and pull at the same time (for screen echoing)
+x0008   claf    clear all flags
+x0009   cln     clear negetive flag
+x000a   clz     clear zero flag
+x000b   clc     clear carry flag
+x000c   clt     clear signed overflow flag
+x000d   clj     clear jump mode flag (force exit jmp mode)
 x000e   
-x000f   
+x000f   chr     push current value of r14 (or) to output buffer and pull input buffer from inputbuffer to r15 (ir)
+   
+   
+   
 
-x0000   
-x0001   
-x0002   
-x0003   
-x0004   
-x0005   
-x0006   
-x0007   
-x0008   
-x0009   
-x000a   
-x000b   
-x000c   
-x000d   
-x000e   
-x000f   stdn    shutdown
+x00f0   
+x00f1   
+x00f2   
+x00f3   
+x00f4   
+x00f5   
+x00f6   
+x00f7   
+x00f8   
+x00f9   
+x00fa   
+x00fb   
+x00fc   
+x00fd   
+x00fe   
+x00ff   stdn    shutdown
 
 
 
