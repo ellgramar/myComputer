@@ -4,7 +4,7 @@
 void decode1(uint16_t instr){
     switch ((instr & 0xf000) >> 12){
         case 0xf:       //  escape to decode 2
-            n2(instr);
+            decode2(instr);
             break;
 
         case 0x0:       // addition
@@ -445,11 +445,11 @@ void cmp(uint16_t instr){
         case 0xc:       //  clear jump bits in status register
             reg[20] = (reg[20] & 0xfff0);
             break;
-    }       
+    } 
+    return;      
 }
 
-
-setJumpFlags(int upper, int lower){
+void setJumpFlags(int upper, int lower){
     int result = upper - lower;
     if (result < 0){
         reg[20] = (reg[20] | 0x8000);
@@ -472,8 +472,16 @@ void input(){
 
 }
 void pushAll(){
-
+    for (int i = 0; i < 21; i++){
+        mem[reg[17]] = reg[i];
+        reg[17] = reg[17] - 1;
+    }
+    reg[18] = reg[17] + 1;
 }
 void popAll(){
-
+    for (int i = 0; i < 21; i++){
+        reg[i] = mem[reg[17]];
+        reg[17] = reg[17] + 1;
+    }
+    return;
 }

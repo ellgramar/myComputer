@@ -1,15 +1,10 @@
 CC=clang
-CFLAGS=-I .
-DEPS = computer.h inputbuffering.h
-OBJ = computer.c inputbuffering.c
+CFLAGS=-I.
+DEPS = computer.h inputbuffering.h instr.h
+OBJ = computer.o inputbuffering.o instr.o 
 
-$.o: %.c $(DEPS)
+%.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-computer: $(OBJ)
+hellomake: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
-
-.PHONY: clean
-
-clean: 
-	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~

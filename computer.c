@@ -1,4 +1,5 @@
 #include "computer.h"
+#include "inputbuffering.h"
 #include "instr.h"
 
 int main(int argc, const char* argv[]){
