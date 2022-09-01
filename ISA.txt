@@ -10,9 +10,9 @@ Addressable Registers
 4  r4     |                    |  |
 5  r5     |                    |  |-- Standard General purpose
 6  r6     |                    |  |
-7  r7     |   User addressable |  |
+7  r7     |   User             |  |
 8  r8     |-- addressable      |  |
-9 r9     |   Registers        |__
+9 r9      |   Registers        |__
 10 ra     | --                 |--
 11 rb     |  |                 |  |-- ra with rb and rc with rd are used for 
 12 rc     |  |                 |  |     32 bit addressable modes for bus interfaces
@@ -93,7 +93,7 @@ x9  stb     set jump bits based on lowest nibble
 xa  ajb     add to jump bits from lowest nibble (be careful of overflow as it is not detected)
 xb  sjb     subtract from jump bits same as add
 xc  cjb     clear jump bits in status register 
-xd  
+xd  zjb     zero j-bit in SR
 xe  
 xf  
 

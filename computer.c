@@ -13,8 +13,10 @@ int main(int argc, const char* argv[]){
     size_t read = fread(mem, sizeof(uint16_t), 16, fp);
     // close file pointer
     fclose(fp);
-    // disable input buffering
+    //  disable input buffering
     disable_input_buffering();
+    //  create an array for the i/o chars
+    char carr[2][2] = {{0,0},{0,0}};
     // run the program
     bool running = true;
     //  cycle accumulator
@@ -36,6 +38,14 @@ int main(int argc, const char* argv[]){
         // decode the instruction 
         // and let the decoder process it
         decode1(instr);
+
+        if (((reg[20] & 0x0800) >> 11) == 1){
+            printf("%c", reg[14]);
+            reg[20] = reg[20] & 0xf7ff;
+        }
+        if (((reg[20] & 0x4000) >> 10) == 1){
+            // TODO: fix i/o
+        }
 
         cycles++;
         if (cycles == 65535){
