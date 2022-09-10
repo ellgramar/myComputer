@@ -6,8 +6,11 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
+ 
+make: *** No rule to make target `all'.  Stop.
 
-# Make data base, printed on Sat Aug 20 20:29:28 2022
+
+# Make data base, printed on Sat Sep 10 19:23:59 2022
 
 # Variables
 
@@ -16,7 +19,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # automatic
 ?F = $(notdir $?)
 # makefile (from `makefile', line 4)
-OBJ = computer.c inputbuffering.c
+OBJ = computer.o inputbuffering.o instr.o 
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
@@ -24,7 +27,7 @@ OBJ = computer.c inputbuffering.c
 # automatic
 @F = $(notdir $@)
 # makefile
-CURDIR := /Users/elliot/Projects/myComputer
+CURDIR := /Users/ellgramar/Projects/myComputer
 # makefile
 SHELL = /bin/sh
 # environment
@@ -32,7 +35,7 @@ VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupp
 # environment
 _ = /usr/bin/make
 # makefile (from `makefile', line 2)
-CFLAGS = -I .
+CFLAGS = -I.
 # makefile (from `makefile', line 1)
 MAKEFILE_LIST :=  makefile
 # environment
@@ -42,19 +45,17 @@ INFOPATH = /opt/homebrew/share/info:
 # environment
 VSCODE_CWD = /
 # environment
-PATH = /Users/elliot/miniforge3/bin:/Users/elliot/miniforge3/condabin:/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.10/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands
+PATH = /opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Volumes/xv6:/opt/riscv/bin:/Users/ellgramar/.emacs.d/bin
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.6jWV61CJjN/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.y11GovPJzw/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
-CONDA_EXE = /Users/elliot/miniforge3/bin/conda
-# environment
-PWD = /Users/elliot/Projects/myComputer
+PWD = /Users/ellgramar/Projects/myComputer
 # environment
 HOMEBREW_CELLAR = /opt/homebrew/Cellar
 # environment
@@ -64,23 +65,19 @@ MANPATH = /opt/homebrew/share/man::
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
-HOME = /Users/elliot
+HOME = /Users/ellgramar
 # default
 MAKEFILEPATH = $(shell /usr/bin/xcode-select -print-path 2>/dev/null || echo /Developer)/Makefiles
 # environment
-VSCODE_CODE_CACHE_PATH = /Users/elliot/Library/Application Support/Code/CachedData/e4503b30fc78200f846c62cf8091b76ff5547662
+VSCODE_CODE_CACHE_PATH = /Users/ellgramar/Library/Application Support/Code/CachedData/784b0177c56c607789f9638da7b6bf3230d47a8c
 # environment
-LOGNAME = elliot
+LOGNAME = ellgramar
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
-# environment
-CONDA_PROMPT_MODIFIER = (base) 
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
-# environment
-CONDA_DEFAULT_ENV = base
 # environment
 XPC_FLAGS = 0x0
 # default
@@ -94,35 +91,31 @@ CC = clang
 # default
 MAKE_VERSION := 3.81
 # environment
-USER = elliot
+USER = ellgramar
 # makefile
-.DEFAULT_GOAL := o
+.DEFAULT_GOAL := hellomake
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
-# environment
-CONDA_SHLVL = 1
 # default
 MAKE_COMMAND := /Library/Developer/CommandLineTools/usr/bin/make
 # default
 .VARIABLES := 
 # environment
-TMPDIR = /var/folders/xs/cw5250c529d_d52p02yvcv180000gn/T/
+TMPDIR = /var/folders/hn/f4_187fj4lb18rw_9bp145f80000gn/T/
 # automatic
 *F = $(notdir $*)
 # environment
-VSCODE_IPC_HOOK = /Users/elliot/Library/Application Support/Code/1.70.2-main.sock
+VSCODE_IPC_HOOK = /Users/ellgramar/Library/Application Support/Code/1.71.0-main.sock
 # environment
 MallocNanoZone = 0
 # makefile
 MAKEFLAGS = Rrqp
 # environment
-PROMPT = %B%F{white}(base) %f%F{red}%~%f%F{red}>%f%F{white} %f%b
-# environment
 MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.15610096.15610102
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.2515087.2515093
 # environment
 HOMEBREW_PREFIX = /opt/homebrew
 # automatic
@@ -141,30 +134,20 @@ MAKEFILES :=
 <F = $(notdir $<)
 # environment
 LC_ALL = C
-# environment
-CONDA_PYTHON_EXE = /Users/elliot/miniforge3/bin/python
 # automatic
 ^F = $(notdir $^)
 # makefile (from `makefile', line 3)
-DEPS = computer.h inputbuffering.h
+DEPS = computer.h inputbuffering.h instr.h
 # default
 SUFFIXES := 
 # environment
-_CE_M = 
-# environment
 MAKELEVEL := 0
 # environment
-CLICOLOR = 1
-# environment
-CONDA_PREFIX = /Users/elliot/miniforge3
-# environment
-VSCODE_PID = 30568
-# environment
-_CE_CONDA = 
-# environment
 LANG = C
+# environment
+VSCODE_PID = 9151
 # variable set hash-table stats:
-# Load=76/1024=7%, Rehash=0, Collisions=4/102=4%
+# Load=66/1024=6%, Rehash=0, Collisions=3/91=3%
 
 # Pattern-specific Variable Values
 
@@ -172,18 +155,23 @@ LANG = C
 
 # Directories
 
-# . (device 16777229, inode 15601389): 14 files, no impossibilities.
+# . (device 16777229, inode 1792640): 15 files, no impossibilities.
 
-# 14 files, no impossibilities in 1 directories.
+# 15 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
-# No implicit rules.
+%.o: %.c computer.h inputbuffering.h instr.h
+#  commands to execute (from `makefile', line 7):
+	$(CC) -c -o $@ $< $(CFLAGS)
+	
+
+# 1 implicit rules, 0 (0.0%) terminal.
 
 # Files
 
 # Not a target:
-computer.h:
+inputbuffering.o:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -197,15 +185,8 @@ all:
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
-o: %.c computer.h inputbuffering.h
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  commands to execute (from `makefile', line 7):
-	$(CC) -c -o $@ $< $(CFLAGS)
-	
-
-.PHONY: clean
+# Not a target:
+instr.o:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -219,34 +200,14 @@ o: %.c computer.h inputbuffering.h
 # Not a target:
 makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-20 17:41:05
+#  Last modified 2022-08-30 10:54:41
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # Not a target:
-inputbuffering.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-%.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-computer: computer.c inputbuffering.c
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  commands to execute (from `makefile', line 10):
-	$(CC) -o $@ $^ $(CFLAGS)
-	
-
-# Not a target:
-inputbuffering.h:
+computer.o:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -257,23 +218,16 @@ inputbuffering.h:
 #  Modification time never checked.
 #  File has not been updated.
 
-clean:
-#  Phony target (prerequisite of .PHONY).
-#  Implicit rule search has not been done.
-#  File does not exist.
-#  File has not been updated.
-#  commands to execute (from `makefile', line 15):
-	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~
-	
-
-# Not a target:
-computer.c:
+hellomake: computer.o inputbuffering.o instr.o
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+#  commands to execute (from `makefile', line 10):
+	$(CC) -o $@ $^ $(CFLAGS)
+	
 
 # files hash-table stats:
-# Load=13/1024=1%, Rehash=0, Collisions=0/31=0%
+# Load=8/1024=1%, Rehash=0, Collisions=0/23=0%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -285,8 +239,6 @@ computer.c:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Sat Aug 20 20:29:28 2022
+# Finished Make data base on Sat Sep 10 19:23:59 2022
 
  
-make: *** No rule to make target `all'.  Stop.
-

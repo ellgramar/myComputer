@@ -133,6 +133,12 @@ void decode1(uint16_t instr){
     return;
 }
 void decode2(uint16_t instr){
+
+    if (instr > 0x07ff){
+        char c = (char)(reg[15] &0x00ff);
+        carr[1][1] = c;
+        io = 0x1;
+    }
     switch((instr & 0x0f00) >> 8){
         case 0x0:       //  escape to decode 3
             decode3(instr);
@@ -158,6 +164,10 @@ void decode2(uint16_t instr){
 
         case 0x5:       //  store indirect
             mem[reg[(instr & 0x000f)]] = reg[(instr & 0x00f0) >> 4];
+            break;
+        
+        case 0x6:       //  store date from r1 to address specified in r2
+            mem[reg[instr & 0x000f]] = reg[(instr & 0x00f0) >> 4];
             break;
 
         default:
@@ -473,11 +483,11 @@ void setJumpFlags(int upper, int lower){
 void call(){
 
 }
-void output(){
-    
-}
 void input(){
 
+}
+void output(){
+    
 }
 void pushAll(){
     for (int i = 0; i < 21; i++){

@@ -12,27 +12,29 @@ Addressable Registers
 6  r6     |                    |  |
 7  r7     |   User             |  |
 8  r8     |-- addressable      |  |
-9 r9      |   Registers        |__
+9  r9     |   Registers        |__
 10 ra     | --                 |--
 11 rb     |  |                 |  |-- ra with rb and rc with rd are used for 
 12 rc     |  |                 |  |     32 bit addressable modes for bus interfaces
 13 rd     |  |                 |__
-14 or e   |  |   Special       | Output Register (holds two chars) outputs to vt buffer queue if output flag is enabled
-15 ir f --   |-- Purpose       | Input Register (holds two chars) vt buffer qeue poped to this register 
+14 ir e   |  |   Special       | Input Register (holds two chars) vt buffer qeue poped to this register
+15 or f --   |-- Purpose       | Output Register (holds two chars) outputs to vt buffer queue if output flag is enabled
 16 pc        |   Registers     | program counter register
 17 sp        |                 | stack pointer register
 18 fp        |                 | frame pointer register
 19 lr        |                 | link register for return address of function
 20 sr       --                 | status register
-                                    nzct oijx xxxx bbbb           
+                                    nzct iojx xxxx bbbb           
                                         n   indicates that the resulting value is negetive
                                         z   indicates that the result of the operation resulted in zero
                                         c   indicates that there was a carry or overflow
                                         t   indicates that in signed integers, there was an overflow
-                                        o   output flag (raise to output two chars, it is then cleared)
                                         i   input flag (raise to get next two chars in replacing previous ones)
+                                        o   output flag (raise to output two chars, it is then cleared)
                                         j   jump bit to toggle jump mode
                                         b   MSBs for jump instructions (absolute jump just takes the LSB)
+
+Output Register (holds two chars) outputs to vt buffer queue if output flag is enabled
 
 Three register commands
 opcd    dest    src1    src2
@@ -47,30 +49,26 @@ x7  orr     src1 | src2
 x8  nor     !(src1 | src2)
 x9  xor     src1 xor src2
 xa  xnr     !(src1 xor src2)
-xb  lod     load from address to r (address is lower byte)
-xc  str     store from r to address (address is lower byte)
-xd  set     set lower byte in register to value stored in lower byte of instruction
-xe  
+xb  lod     LOad from address to r (address is lower byte)
+xc  str     SToRe from r to address (address is lower byte)
+xd  set     SET lower byte in register to value stored in lower byte of instruction
+xe  sop     Screen OutPut lower byte to screen at location specified by register specified by second nibble
 xf  escape to two register commands
 
 Two Register Operations
 x00 escape to one register opcodes 0
-x01 cmp     compares the two registers and sets flag accordingly activates jump/branch mode
-x02 jod     jump to odd address (sets jump flag before calling cmp function)
-x03 mov     move src2 to src1
+x01 cmp     CoMPare the two registers and set flags accordingly, activates jump/branch mode
+x02 jod     Jump to ODd address (sets jump flag before calling cmp function)
+x03 mov     MOVe src2 to src1
 x04 swr     swaps src1 and src2
 x05 ldi     load data from address specified in r2 to r1
 x06 sti     store data from r1 to address in r2
-x06 
-x07 
-x08 
-x09 
-x0a 
-x0b 
-x0c 
-x0d 
-x0e 
-x0f
+x07 swm     switch memory device: Reserved, Not implemented yet
+x08 osc     output lower byte in 'or' (r15) to location specified by lower 11 bits
+-x0f        this gives 2048 possible locations, of which 1-2000 are used as memory-
+            mapped characters on the terminal screen (85 * 25) while pixel 0 and
+            2001-2047 are control characters.
+
 
 Jump/Branch mode is activated on cmp instruction (also sets jump flag). After the jump or branch, this mode is deactivated.
     -   However, it is not deactivated until it is taken or the next instruction is not a jump/branch
@@ -122,7 +120,7 @@ x0001   ret     return
 x0002   nop     pc inc
 x0003   psha    push all registers to stack and set sp and lr accordingly
 x0004   popa    pop all registers from stack and set sp and lr
-x0005   out     push output register char values to vt write buffer
+x0005   out2     push output register char values to vt write buffer
 x0006   in      pull two chars from vt read buffer to input register 
 x0007   io      push and pull at the same time (for screen echoing)
 x0008   claf    clear all flags
