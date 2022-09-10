@@ -1,8 +1,0 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory `/Users/ellgramar/Projects/myComputer'
-clang -c -o computer.o computer.c -I.
-clang -c -o inputbuffering.o inputbuffering.c -I.
-clang -c -o instr.o instr.c -I.
-clang -o hellomake computer.o inputbuffering.o instr.o -I.
-make: Leaving directory `/Users/ellgramar/Projects/myComputer'
- 
