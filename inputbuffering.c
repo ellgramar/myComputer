@@ -17,3 +17,12 @@ void disable_input_buffering() {
 void restore_input_buffering() {
     tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
 }
+
+void printScreen(char arr[]){
+    for (int i = 0; i < 2000; i++){
+        printf("%c", arr[i]);
+        if ((i % 80) == 0){
+            print("\n");
+        }
+    }
+}

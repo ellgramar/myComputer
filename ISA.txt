@@ -69,6 +69,8 @@ x08 osc     output lower byte in 'or' (r15) to location specified by lower 11 bi
             mapped characters on the terminal screen (85 * 25) while pixel 0 and
             2001-2047 are control characters.
 
+            # need to make data structure
+
 
 Jump/Branch mode is activated on cmp instruction (also sets jump flag). After the jump or branch, this mode is deactivated.
     -   However, it is not deactivated until it is taken or the next instruction is not a jump/branch
@@ -78,7 +80,7 @@ Jump/Branch mode is activated on cmp instruction (also sets jump flag). After th
                 set r1, 0x10        <- jump mode automatically deactivated
 
 x0  jmp     absolute jump: MSBs = 4 LSBs in sr, 12 LSBs in opcode
-                i.e. 0xefef: sr = nzct oijx xxxx 1110; opcode = 0000 1111 1110 1111
+                i.e. 0xefef: sr = nzct oijx xxxx 1110; opcode = 1110 1111 1110 1111
 x1  jrp     jump relative plus positive offset
 x2  jrn     jump relative minus offset
 x3  beq     branch if equal

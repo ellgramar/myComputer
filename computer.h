@@ -15,9 +15,11 @@ uint16_t reg[21];
 uint16_t mem[0xffff];
 //  error handling
 extern char Error[64];
+//  screen output
 
+extern char screen[2000];
+extern int cursor = 1;
 //  create an array for the i/o chars: input, then output
 extern char carr[2][2] = {{0,0},{0,0}};
-uint4_t io = 0x0;
 
 #endif

@@ -15,12 +15,23 @@ int main(int argc, const char* argv[]){
     fclose(fp);
     //  disable input buffering
     disable_input_buffering();
+    //  create a 80x25 char array for the screen
     //  get terminal screen size
     struct winsize w;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
     int rows = w.ws_row, cols = w.ws_col, scrnbffr = rows * cols;
+    //  check for proper screen size before initating screen capture
+    if (rows < 25 || cols < 80){
+        const char Error[] = "The screen is too small";
+        printf("\n");
+        for (int i = 0; i < 22; i++){
+            printf("%c", Error[i]);
+        }
+        return 1;
 
-    
+    }
+    //  make the screen array
+
 
     // run the program
     bool running = true;

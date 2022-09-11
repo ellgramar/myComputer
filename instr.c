@@ -139,41 +139,53 @@ void decode2(uint16_t instr){
         carr[1][1] = c;
         io = 0x1;
     }
-    switch((instr & 0x0f00) >> 8){
-        case 0x0:       //  escape to decode 3
-            decode3(instr);
-            break;
-        
-        case 0x1:      //  cmp command
-            cmp (instr);
-            break;
 
-        case 0x2:       //  move
-            reg[(instr & 0x00f0) >> 4] = reg[(instr & 0x000f)];
-            break;
+    if (((instr & 0x0f00) >> 8) < 0x0800){
+        switch((instr & 0x0f00) >> 8){
+            case 0x0:       //  escape to decode 3
+                decode3(instr);
+                break;
+            
+            case 0x1:      //  cmp command
+                cmp (instr);
+                break;
 
-        case 0x3:       //  swap registers
-            uint16_t temp = reg[(instr & 0x00f0) >> 4];
-            reg[(instr & 0x00f0) >> 4] = reg[(instr & 0x000f)];
-            reg[(instr & 0x000f)] = temp;
-            break;
+            case 0x2:       //  move
+                reg[(instr & 0x00f0) >> 4] = reg[(instr & 0x000f)];
+                break;
 
-        case 0x4:       //  load indirect
-            reg[(instr & 0x00f0)] = mem[reg[(instr & 0x000f)]];
-            break;
+            case 0x3:       //  swap registers
+                uint16_t temp = reg[(instr & 0x00f0) >> 4];
+                reg[(instr & 0x00f0) >> 4] = reg[(instr & 0x000f)];
+                reg[(instr & 0x000f)] = temp;
+                break;
 
-        case 0x5:       //  store indirect
-            mem[reg[(instr & 0x000f)]] = reg[(instr & 0x00f0) >> 4];
-            break;
-        
-        case 0x6:       //  store date from r1 to address specified in r2
-            mem[reg[instr & 0x000f]] = reg[(instr & 0x00f0) >> 4];
-            break;
+            case 0x4:       //  load indirect
+                reg[(instr & 0x00f0)] = mem[reg[(instr & 0x000f)]];
+                break;
 
-        default:
-            const char Error[] = "Error in decoder2; invalid number";
-            break;
+            case 0x5:       //  store indirect
+                mem[reg[(instr & 0x000f)]] = reg[(instr & 0x00f0) >> 4];
+                break;
+            
+            case 0x6:       //  store date from r1 to address specified in r2
+                mem[reg[instr & 0x000f]] = reg[(instr & 0x00f0) >> 4];
+                break;
+
+            case 0x7:       //  switch memory device if more than one is there
+                const char Error[] = "There is only one memory device";
+
+            default:
+                const char Error[] = "Error in decoder2; invalid number";
+                break;
+        }
+    } else if (((instr & 0x0f00) >> 8) >= 0x0800){
+        int location = (int)(instr & 0x07ff);
+        screen[location] = reg[15];
+        printScreen(screen);
     }
+
+
     return;
 }
 void decode3(uint16_t instr){
