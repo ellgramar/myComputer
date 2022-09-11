@@ -133,13 +133,6 @@ void decode1(uint16_t instr){
     return;
 }
 void decode2(uint16_t instr){
-
-    if (instr > 0x07ff){
-        char c = (char)(reg[15] &0x00ff);
-        carr[1][1] = c;
-        io = 0x1;
-    }
-
     if (((instr & 0x0f00) >> 8) < 0x0800){
         switch((instr & 0x0f00) >> 8){
             case 0x0:       //  escape to decode 3
@@ -184,8 +177,6 @@ void decode2(uint16_t instr){
         screen[location] = reg[15];
         printScreen(screen);
     }
-
-
     return;
 }
 void decode3(uint16_t instr){

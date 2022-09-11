@@ -30,8 +30,6 @@ int main(int argc, const char* argv[]){
         return 1;
 
     }
-    //  make the screen array
-
 
     // run the program
     bool running = true;
